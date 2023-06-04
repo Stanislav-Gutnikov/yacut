@@ -1,10 +1,10 @@
-from . import app, db
-from flask import Flask, render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash
 import string
 from random import choice
+
+from . import app, db
 from .forms import URLForm
 from .models import URLMap
-from .error_handlers import InvalidAPIUsage
 
 
 def get_unique_short_id():
@@ -15,7 +15,7 @@ def get_unique_short_id():
     while len(new_str) <= 5:
         new_str += choice(str_)
     return new_str
-    
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index_view():
@@ -35,13 +35,11 @@ def index_view():
             original=form.original_link.data,
             short=short,
         )
-        # Затем добавить его в сессию работы с базой данных
         db.session.add(url)
-        # И зафиксировать изменения
         db.session.commit()
-        # Затем перейти на страницу добавленного мнения
         flash(url_for('short_view', short=short, _external=True))
     return render_template('index.html', form=form)
+
 
 @app.route('/<string:short>')
 def short_view(short):
