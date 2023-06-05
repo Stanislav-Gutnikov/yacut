@@ -1,20 +1,9 @@
 from flask import render_template, redirect, url_for, flash
-import string
-from random import choice
 
 from . import app, db
 from .forms import URLForm
 from .models import URLMap
-
-
-def get_unique_short_id():
-    str_ = string.ascii_letters
-    for i in range(1, 10):
-        str_ += str(i)
-    new_str = ''
-    while len(new_str) <= 5:
-        new_str += choice(str_)
-    return new_str
+from .utils import get_unique_short_id
 
 
 @app.route('/', methods=['GET', 'POST'])
