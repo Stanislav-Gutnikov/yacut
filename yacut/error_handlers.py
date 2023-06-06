@@ -16,7 +16,7 @@ def internal_error(error):
 
 
 class InvalidAPIUsage(Exception):
-    def __init__(self, message, status_code=400):
+    def __init__(self, message, status_code=HTTPStatus.BAD_REQUEST):
         super().__init__()
         self.message = message
         self.status_code = status_code
